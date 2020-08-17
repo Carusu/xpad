@@ -542,6 +542,16 @@ static const u8 xboxone_rumbleend_init[] = {
 	0x00, 0x00, 0x00, 0x00, 0x00
 };
 
+/* Manette de Jeux PGXONE
+ * A rumble packet with zero FF intensity will immediately
+ * terminate the rumbling required to init PowerA pads.
+ * This should happen fast enough that the motors don't
+ * spin up to enough speed to actually vibrate the gamepad.
+ */
+static const u8 xboxone_sogpgxone_init[] = {
+	0x09, 0x02, 0x20, 0x00, 0x01, 0x01, 0x00, 0xa0,
+	0x1D, 0x1D, 0xFF, 0x00, 0x00
+};
 /*
  * This specifies the selection of init packets that a gamepad
  * will be sent on init *and* the order in which they will be
@@ -562,6 +572,7 @@ static const struct xboxone_init_packet xboxone_init_packets[] = {
 	XBOXONE_INIT_PKT(0x24c6, 0x541a, xboxone_rumbleend_init),
 	XBOXONE_INIT_PKT(0x24c6, 0x542a, xboxone_rumbleend_init),
 	XBOXONE_INIT_PKT(0x24c6, 0x543a, xboxone_rumbleend_init),
+	XBOXONE_INIT_PKT(0x045e, 0x02d1, xboxone_sogpgxone_init),
 };
 
 struct xpad_output_packet {
